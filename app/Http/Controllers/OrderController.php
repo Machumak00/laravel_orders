@@ -10,7 +10,6 @@ use App\Http\Services\Order\CreateService;
 use App\Http\Services\Order\GetService;
 use App\Http\Services\Order\UpdateService;
 use Illuminate\Http\JsonResponse;
-use App\Models\Order;
 
 class OrderController extends Controller
 {
@@ -47,7 +46,11 @@ class OrderController extends Controller
 
     public function get(GetRequest $request, int $id, GetService $service): JsonResponse
     {
-        $order = $service->get($id);
+        try {
+            $order = $service->get($id);
+        } catch (OrderNotFoundExceptionById $e) {
+            return response()->json(['message' => $e->getMessage()]);
+        }
 
         return response()->json($order);
     }
