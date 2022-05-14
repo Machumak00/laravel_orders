@@ -7,14 +7,26 @@ use Illuminate\Foundation\Http\FormRequest;
 class CreateRequest extends FormRequest
 {
     /**
-     * @return string[]
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, mixed>
      */
     public function rules(): array
     {
         return [
-            'full_name' => 'required|string',
-            'total_amount' => 'required|integer',
-            'delivery_address' => 'required|string',
+            'fullName' => 'required|string',
+            'totalAmount' => 'required|integer',
+            'deliveryAddress' => 'required|string',
         ];
     }
 }

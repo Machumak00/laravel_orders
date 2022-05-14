@@ -17,15 +17,12 @@ class Order extends Model
     /**
      * @var string
      */
-    protected $dateFormat = 'U';
+    protected $dateFormat = 'Y-m-d';
 
     /**
      * @var string[]
      */
     protected $fillable = ['full_name', 'total_amount', 'delivery_address'];
 
-    /**
-     * @var string[]
-     */
-    public $timestamps = ['created_at'];
+    const UPDATED_AT = null;
 }

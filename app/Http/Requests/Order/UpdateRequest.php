@@ -7,16 +7,28 @@ use Illuminate\Foundation\Http\FormRequest;
 class UpdateRequest extends FormRequest
 {
     /**
-     * @return string[]
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, mixed>
      */
     public function rules(): array
     {
         return [
             'id' => 'required|integer|min:1|exists:orders,id',
-            'full_name' => 'string',
-            'total_amount' => 'integer',
-            'delivery_address' => 'string',
-            'created_at' => 'date_format:U',
+            'fullName' => 'string',
+            'totalAmount' => 'integer',
+            'deliveryAddress' => 'string',
+            'createdAt' => 'date_format:U',
         ];
     }
 }

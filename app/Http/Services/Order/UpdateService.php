@@ -8,29 +8,29 @@ use App\Models\Order;
 class UpdateService
 {
     /**
-     * @var string
+     * @var string|null
      */
-    private string $fullName;
+    private string|null $fullName;
 
     /**
-     * @var int
+     * @var int|null
      */
-    private int $totalAmount;
+    private int|null $totalAmount;
 
     /**
-     * @var string
+     * @var string|null
      */
-    private string $deliveryAddress;
+    private string|null $deliveryAddress;
 
     /**
-     * @param  string  $fullName
-     * @param  int     $totalAmount
-     * @param  string  $deliveryAddress
+     * @param string|null $fullName
+     * @param int|null $totalAmount
+     * @param string|null $deliveryAddress
      */
     public function __construct(
-        string $fullName,
-        int $totalAmount,
-        string $deliveryAddress
+        string|null $fullName,
+        int|null $totalAmount,
+        string|null $deliveryAddress
     ) {
         $this->fullName = $fullName;
         $this->totalAmount = $totalAmount;
@@ -41,15 +41,10 @@ class UpdateService
      * @param  int  $id
      *
      * @return Order
-     * @throws OrderNotFoundExceptionById
      */
     public function update(int $id): Order
     {
         $order = Order::where('id', $id)->first();
-
-        if (is_null($order)) {
-            throw new OrderNotFoundExceptionById($id);
-        }
 
         $params = [];
 
@@ -65,7 +60,8 @@ class UpdateService
             $params['delivery_address'] = $this->deliveryAddress;
         }
 
-        $order = $order->update($params);
+        $order->update($params);
+        $order->refresh();
 
         return $order;
     }

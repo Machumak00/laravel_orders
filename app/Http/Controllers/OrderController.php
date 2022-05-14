@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\OrderNotFoundExceptionById;
 use App\Http\Requests\Order\CreateRequest;
-use App\Http\Requests\Order\GetRequest;
 use App\Http\Requests\Order\UpdateRequest;
 use App\Http\Services\Order\CreateService;
 use App\Http\Services\Order\GetService;
@@ -16,9 +15,9 @@ class OrderController extends Controller
     public function create(CreateRequest $request): JsonResponse
     {
         $service = new CreateService(
-            $request->input('full_name'),
-            $request->input('total_amount'),
-            $request->input('delivery_address')
+            $request->input('fullName'),
+            $request->input('totalAmount'),
+            $request->input('deliveryAddress')
         );
 
         $order = $service->create();
@@ -29,22 +28,18 @@ class OrderController extends Controller
     public function update(UpdateRequest $request): JsonResponse
     {
         $service = new UpdateService(
-            $request->input('full_name'),
-            $request->input('total_amount'),
-            $request->input('delivery_address')
+            $request->input('fullName'),
+            $request->input('totalAmount'),
+            $request->input('deliveryAddress')
         );
 
-        try {
-            $order = $service->update($request->input('id'));
-        } catch (OrderNotFoundExceptionById $e) {
-            return response()->json(['message' => $e->getMessage()]);
-        }
+        $order = $service->update($request->input('id'));
 
         return response()->json($order);
     }
 
 
-    public function get(GetRequest $request, int $id, GetService $service): JsonResponse
+    public function get(int $id, GetService $service): JsonResponse
     {
         try {
             $order = $service->get($id);
